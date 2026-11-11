@@ -1,7 +1,7 @@
 import os
 
 os.environ['AI_PROVIDER'] = 'ollama'
-os.environ['DATABASE_URL'] = 'sqlite:////./test_iraq_ai.db'
+os.environ['DATABASE_URL'] = 'sqlite:///./test_iraq_ai.db'
 
 from fastapi.testclient import TestClient
 from app.main import app
