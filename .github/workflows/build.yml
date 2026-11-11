@@ -1,31 +1,42 @@
 name: Build IRAQ AI
+
 on:
   workflow_dispatch:
   push:
     branches: [main]
+
 jobs:
   backend:
     runs-on: ubuntu-latest
-    defaults: {run: {working-directory: backend}}
+    defaults:
+      run:
+        working-directory: backend
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: {python-version: '3.12'}
+        with:
+          python-version: '3.12'
       - run: pip install -r requirements.txt
-      - run: pytest -q
+      - run: python -m pytest -q
+
   flutter:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
-        with: {channel: stable}
-      - run: flutter create --platforms=android,web --project-name iraq_ai --org iq.iraqai .
+        with:
+          channel: stable
+      - run: flutter --version
       - run: flutter pub get
       - run: flutter analyze
       - run: flutter test
       - run: flutter build apk --release
       - run: flutter build web --release
       - uses: actions/upload-artifact@v4
-        with: {name: iraq-ai-apk, path: build/app/outputs/flutter-apk/app-release.apk}
+        with:
+          name: iraq-ai-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
       - uses: actions/upload-artifact@v4
-        with: {name: iraq-ai-web, path: build/web}
+        with:
+          name: iraq-ai-web
+          path: build/web
